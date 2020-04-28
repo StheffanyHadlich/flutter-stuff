@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_stuff/app_localization.dart';
 import '../../models/PokemonsModel.dart';
 
 class Pokemon extends StatelessWidget {
@@ -16,6 +17,9 @@ class Pokemon extends StatelessWidget {
             Image(
               image: NetworkImage(
                   'https://www.comoaprenderdesenhar.com.br/wp-content/uploads/2015/09/Como-Desenhar-o-Pikachu-de-Pok%C3%A9mon-1.jpg'),
+            ),
+            Text(
+              AppLocalizations.of(context).translate('home')
             ),
             Text(
               pokemon.name,
