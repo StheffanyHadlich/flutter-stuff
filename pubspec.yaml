@@ -16,6 +16,8 @@ dependencies:
 
   cupertino_icons: ^0.1.2
 
+  i18next: ^0.0.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -25,5 +27,5 @@ flutter:
   uses-material-design: true
   
   assets:
-    - lang/en.json
-    - lang/pt.json
+    - assets/localizations/en-US/
+    - assets/localizations/pt-BR/
