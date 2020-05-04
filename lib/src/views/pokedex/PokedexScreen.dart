@@ -5,7 +5,7 @@ import 'package:flutter_stuff/src/views/pokedex/Pokemon.dart';
 import 'package:http/http.dart' as http;
 import '../../models/PokemonsModel.dart';
 
-final NUMBER_OF_ITEMS_TO_LOAD = 5;
+const NUMBER_OF_ITEMS_TO_LOAD = 5;
 
 class PokedexScreen extends StatefulWidget {
   @override
@@ -14,6 +14,7 @@ class PokedexScreen extends StatefulWidget {
 
 class _PokedexScreenState extends State<PokedexScreen> {
   int _index = 1;
+  bool loading = false;
   List<PokemonsModel> pokemons = [];
   ScrollController _scrollController = new ScrollController();
 
@@ -45,15 +46,21 @@ class _PokedexScreenState extends State<PokedexScreen> {
     });
   }
 
+  void toggleLoading() => setState(() {
+        loading = !loading;
+      });
+
   Future<PokemonsModel> getPokemon(int i) async {
     final url = 'https://pokeapi.co/api/v2/pokemon/${i}';
 
     try {
+      toggleLoading();
       final response = await http.get(url);
       final pokemon = jsonDecode(response.body);
       setState(() {
         pokemons.add(PokemonsModel.fromJson(pokemon));
       });
+      toggleLoading();
     } catch (e) {
       throw Exception(e);
     }
@@ -66,7 +73,7 @@ class _PokedexScreenState extends State<PokedexScreen> {
         child: ListView.builder(
           controller: _scrollController,
           itemCount: pokemons.length,
-          itemBuilder: (_, index) => Pokemon(pokemon: pokemons[index]),
+          itemBuilder: (_, index) => Pokemon(pokemon: pokemons[index], loading: loading),
         ),
       ),
     );
