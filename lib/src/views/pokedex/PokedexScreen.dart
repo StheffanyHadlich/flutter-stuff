@@ -9,32 +9,34 @@ const NUMBER_OF_ITEMS_TO_LOAD = 5;
 
 class PokedexScreen extends StatefulWidget {
   @override
-  _PokedexScreenState createState() => new _PokedexScreenState();
+  _PokedexScreenState createState() => _PokedexScreenState();
 }
 
 class _PokedexScreenState extends State<PokedexScreen> {
   int _index = 1;
   bool loading = false;
   List<PokemonsModel> pokemons = [];
-  ScrollController _scrollController = new ScrollController();
+  ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
     fetchFive();
 
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent) {
-        fetchFive();
-      }
-    });
+    _scrollController.addListener(_fetcherListener);
   }
 
   @override
   void dispose() {
     _scrollController.dispose();
     super.dispose();
+  }
+
+  void _fetcherListener() {
+    if (_scrollController.position.pixels ==
+        _scrollController.position.maxScrollExtent) {
+      fetchFive();
+    }
   }
 
   void fetchFive() async {
@@ -73,7 +75,8 @@ class _PokedexScreenState extends State<PokedexScreen> {
         child: ListView.builder(
           controller: _scrollController,
           itemCount: pokemons.length,
-          itemBuilder: (_, index) => Pokemon(pokemon: pokemons[index], loading: loading),
+          itemBuilder: (_, index) =>
+              Pokemon(pokemon: pokemons[index], loading: loading),
         ),
       ),
     );
