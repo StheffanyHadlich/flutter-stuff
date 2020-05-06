@@ -71,6 +71,11 @@ class _PokedexScreenState extends State<PokedexScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.blueGrey[100],
+      appBar: AppBar(
+        title: Text('Pokedex'),
+        backgroundColor: Colors.red[900],
+      ),
       body: Center(
         child: ListView.builder(
           controller: _scrollController,
