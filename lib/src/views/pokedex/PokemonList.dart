@@ -2,6 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:i18next/i18next.dart';
 import '../../models/PokemonsModel.dart';
 
+class PokemonList extends StatelessWidget {
+  final List<PokemonsModel> pokemons;
+  final ScrollController scrollController;
+  final bool loading;
+
+  PokemonList({this.pokemons, this.scrollController, this.loading});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      controller: scrollController,
+      itemCount: pokemons.length,
+      itemBuilder: (_, index) => Pokemon(
+        pokemon: pokemons[index],
+        loading: loading,
+      ),
+    );
+  }
+}
+
 class Pokemon extends StatelessWidget {
   final PokemonsModel pokemon;
   final bool loading;
