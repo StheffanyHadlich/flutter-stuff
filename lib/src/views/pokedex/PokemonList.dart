@@ -14,7 +14,7 @@ class PokemonList extends StatelessWidget {
     return ListView.builder(
       controller: scrollController,
       itemCount: pokemons.length,
-      itemBuilder: (_, index) => Pokemon(
+      itemBuilder: (_, index) => _PokemonItem(
         pokemon: pokemons[index],
         loading: loading,
       ),
@@ -22,11 +22,11 @@ class PokemonList extends StatelessWidget {
   }
 }
 
-class Pokemon extends StatelessWidget {
+class _PokemonItem extends StatelessWidget {
   final PokemonsModel pokemon;
   final bool loading;
 
-  Pokemon({this.pokemon, this.loading});
+  _PokemonItem({this.pokemon, this.loading});
 
   @override
   Widget build(BuildContext context) {
@@ -40,14 +40,17 @@ class Pokemon extends StatelessWidget {
                   Image(
                     image: NetworkImage(pokemon.photo),
                   ),
-                  Text(I18Next.of(context).t('pokedex:name')),
                   Text(
                     pokemon.name,
-                    textDirection: TextDirection.ltr,
                     style: TextStyle(
                       fontSize: 32,
                     ),
                   ),
+                  RaisedButton(
+                      child: Text(I18Next.of(context).t('pokedex:learn')),
+                      onPressed: () {
+                        Navigator.of(context).pushNamed('/pokemon', arguments: pokemon);
+                      }),
                 ],
               ),
       ),
