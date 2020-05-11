@@ -1,6 +1,6 @@
 class PokemonsModel {
   final String name;
-  final String weight;
+  final int weight;
   final String photo;
 
   PokemonsModel({this.name, this.weight, this.photo});
@@ -8,7 +8,7 @@ class PokemonsModel {
   factory PokemonsModel.fromJson(final json) {
     return PokemonsModel(
       name: json["name"],
-      weight: json["weigth"],
+      weight: json["weight"],
       photo: json["sprites"]["front_default"]
     );
   }

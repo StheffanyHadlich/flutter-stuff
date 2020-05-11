@@ -1,40 +1,40 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_stuff/src/views/pokedex/Pokemon.dart';
+import 'package:flutter_stuff/src/views/pokedex/PokemonList.dart';
 import 'package:http/http.dart' as http;
 import '../../models/PokemonsModel.dart';
 
 const NUMBER_OF_ITEMS_TO_LOAD = 5;
 
-class PokedexScreen extends StatefulWidget {
+class Pokedex extends StatefulWidget {
   @override
-  _PokedexScreenState createState() => _PokedexScreenState();
+  _PokedexState createState() => _PokedexState();
 }
 
-class _PokedexScreenState extends State<PokedexScreen> {
+class _PokedexState extends State<Pokedex> {
   int _index = 1;
   bool loading = false;
   List<PokemonsModel> pokemons = [];
-  ScrollController _scrollController = ScrollController();
+  ScrollController scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
     fetchFive();
 
-    _scrollController.addListener(_fetcherListener);
+    scrollController.addListener(_fetcherListener);
   }
 
   @override
   void dispose() {
-    _scrollController.dispose();
+    scrollController.dispose();
     super.dispose();
   }
 
   void _fetcherListener() {
-    if (_scrollController.position.pixels ==
-        _scrollController.position.maxScrollExtent) {
+    if (scrollController.position.pixels ==
+        scrollController.position.maxScrollExtent) {
       fetchFive();
     }
   }
@@ -71,12 +71,16 @@ class _PokedexScreenState extends State<PokedexScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.blueGrey[100],
+      appBar: AppBar(
+        title: Text('Pokedex'),
+        backgroundColor: Colors.red[900],
+      ),
       body: Center(
-        child: ListView.builder(
-          controller: _scrollController,
-          itemCount: pokemons.length,
-          itemBuilder: (_, index) =>
-              Pokemon(pokemon: pokemons[index], loading: loading),
+        child: PokemonList(
+          pokemons: pokemons,
+          scrollController: scrollController,
+          loading: loading,
         ),
       ),
     );
